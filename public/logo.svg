@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background circle -->
+  <circle cx="100" cy="100" r="95" fill="#1a1a2e" />
+  
+  <!-- Concentric rings -->
+  <circle cx="100" cy="100" r="78" stroke="#3b82f6" stroke-width="6" fill="none" opacity="0.6" />
+  <circle cx="100" cy="100" r="58" stroke="#ffffff" stroke-width="7" fill="none" opacity="0.8" />
+  
+  <!-- Central "A" stylized letter -->
+  <path d="M85 120L100 75L115 120" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path d="M89 107H111" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+</svg>

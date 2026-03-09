@@ -1,26 +1,222 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans:
+    var(--font-geist-sans), "Inter", "Segoe UI", ui-sans-serif, system-ui,
+    -apple-system;
+  --font-mono:
+    var(--font-geist-mono), "JetBrains Mono", "SF Mono", "Consolas",
+    monospace;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --animg-scrollbar-size: 10px;
+  --animg-scrollbar-track: rgb(241 245 249);
+  --animg-scrollbar-thumb: rgb(148 163 184);
+  --animg-scrollbar-thumb-hover: rgb(100 116 139);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --animg-scrollbar-track: rgb(15 23 42);
+  --animg-scrollbar-thumb: rgb(71 85 105);
+  --animg-scrollbar-thumb-hover: rgb(100 116 139);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  color: rgb(15 23 42);
+  background: rgb(248 250 252);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.dark body {
+  color: rgb(241 245 249);
+  background: rgb(2 6 23);
+}
+
+/* Global scrollbar theme (Firefox + Chromium/WebKit) */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--animg-scrollbar-thumb) var(--animg-scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: var(--animg-scrollbar-size);
+  height: var(--animg-scrollbar-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--animg-scrollbar-track);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--animg-scrollbar-thumb);
+  border: 2px solid var(--animg-scrollbar-track);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--animg-scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Hide scrollbars inside code blocks while keeping horizontal scroll behavior. */
+.animg-code-scroll-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.animg-code-scroll-hidden::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:not([class]) {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.02em;
+}
+
+.animg-container {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.animg-card {
+  border-radius: 0.75rem;
+  border: 1px solid rgb(226 232 240);
+  background: rgb(255 255 255);
+}
+
+.dark .animg-card {
+  border-color: rgb(30 41 59);
+  background: rgb(15 23 42 / 0.75);
+}
+
+.animg-muted {
+  color: rgb(71 85 105);
+}
+
+.dark .animg-muted {
+  color: rgb(148 163 184);
+}
+
+.animg-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.4rem;
+  background: rgb(241 245 249);
+  color: rgb(51 65 85);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.dark .animg-tag {
+  background: rgb(30 41 59);
+  color: rgb(203 213 225);
+}
+
+.animg-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: rgb(37 99 235);
+  color: white;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.animg-button-primary:hover {
+  background: rgb(29 78 216);
+}
+
+.animg-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(203 213 225);
+  color: rgb(51 65 85);
+  font-weight: 500;
+  padding: 0.6rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.animg-button-secondary:hover {
+  background: rgb(248 250 252);
+}
+
+.dark .animg-button-secondary {
+  border-color: rgb(51 65 85);
+  color: rgb(203 213 225);
+}
+
+.dark .animg-button-secondary:hover {
+  background: rgb(15 23 42);
+}
+
+.animg-markdown h2,
+.animg-markdown h3 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.animg-markdown p,
+.animg-markdown li {
+  color: rgb(51 65 85);
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+
+.dark .animg-markdown p,
+.dark .animg-markdown li {
+  color: rgb(203 213 225);
+}
+
+.animg-markdown ul {
+  padding-left: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.animg-markdown code {
+  background: rgb(241 245 249);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.dark .animg-markdown code {
+  background: rgb(30 41 59);
 }
