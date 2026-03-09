@@ -1950,7 +1950,7 @@ export function CreatorWorkbench({
       ensureNotificationPermission();
 
       const timestamp = new Date().toISOString();
-      const markQueued = activeThreadTasks.map((item) =>
+      const markQueued: ChatThreadTask[] = activeThreadTasks.map((item): ChatThreadTask =>
         item.id === taskId
           ? {
               ...item,
@@ -1982,7 +1982,7 @@ export function CreatorWorkbench({
           if (response.status === 402) {
             const message =
               getApiErrorMessage(data) ?? "1080p 任务需要升级订阅";
-            const failed = markQueued.map((item) =>
+            const failed: ChatThreadTask[] = markQueued.map((item): ChatThreadTask =>
               item.id === taskId
                 ? {
                     ...item,
@@ -2005,7 +2005,7 @@ export function CreatorWorkbench({
             throw new Error(getApiErrorMessage(data) ?? "创建渲染任务失败");
           }
 
-          const withJob = markQueued.map((item) =>
+          const withJob: ChatThreadTask[] = markQueued.map((item): ChatThreadTask =>
             item.id === taskId
               ? {
                   ...item,
@@ -2024,7 +2024,7 @@ export function CreatorWorkbench({
         } catch (error) {
           const message =
             error instanceof Error ? error.message : "渲染任务创建失败";
-          const failed = markQueued.map((item) =>
+          const failed: ChatThreadTask[] = markQueued.map((item): ChatThreadTask =>
             item.id === taskId
               ? {
                   ...item,
@@ -2071,7 +2071,7 @@ export function CreatorWorkbench({
             throw new Error(getApiErrorMessage(raw) ?? "取消任务失败");
           }
 
-          const nextTasks = activeThreadTasks.map((item) =>
+          const nextTasks: ChatThreadTask[] = activeThreadTasks.map((item): ChatThreadTask =>
             item.id === taskId
               ? {
                   ...item,
@@ -2089,7 +2089,7 @@ export function CreatorWorkbench({
         } catch (error) {
           const message =
             error instanceof Error ? error.message : "取消任务失败";
-          const nextTasks = activeThreadTasks.map((item) =>
+          const nextTasks: ChatThreadTask[] = activeThreadTasks.map((item): ChatThreadTask =>
             item.id === taskId
               ? {
                   ...item,
@@ -2220,7 +2220,7 @@ export function CreatorWorkbench({
       if (map.size === 0) return;
 
       let changed = false;
-      const nextTasks = activeThreadTasks.map((task) => {
+      const nextTasks: ChatThreadTask[] = activeThreadTasks.map((task): ChatThreadTask => {
         const next = map.get(task.id);
         if (!next) return task;
 

@@ -108,7 +108,7 @@ function buildMarkdownComponents(options: {
     th: ({ className, ...props }) => <th className={cn("px-3 py-2 font-semibold text-slate-700 dark:text-slate-200", className)} {...props} />,
     td: ({ className, ...props }) => <td className={cn("border-t border-slate-200 px-3 py-2 dark:border-slate-700", className)} {...props} />,
     hr: ({ className, ...props }) => <hr className={cn("my-2 border-slate-200 dark:border-slate-700", className)} {...props} />,
-    pre: ({ className, children, ...props }) => {
+    pre: ({ className, children }) => {
       const block = extractCodeBlock(children);
       const canRunCode = typeof options.onRunCodeBlock === "function";
 
@@ -119,7 +119,6 @@ function buildMarkdownComponents(options: {
               "animg-code-scroll-hidden relative my-2 overflow-x-auto rounded-xl border border-slate-700/80 bg-slate-900 px-4 py-3 text-[13px] leading-6 text-slate-100",
               className,
             )}
-            {...props}
           >
             {canRunCode ? (
               <button
@@ -175,7 +174,6 @@ function buildMarkdownComponents(options: {
               "animg-code-scroll-hidden overflow-x-auto border-t border-slate-700/80 px-4 py-3",
               className,
             )}
-            {...props}
           >
             <SyntaxHighlighter
               language={block.language}

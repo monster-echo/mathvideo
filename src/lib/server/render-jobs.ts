@@ -229,50 +229,38 @@ async function cancelQueuedJobInFirestore(id: string, ownerKey: string): Promise
   if (!adminDb) return { status: "not_found" };
 
   const docRef = adminDb.collection(COLLECTION_NAME).doc(id);
-  let next: RenderJobRecord | null = null;
-  let status: CancelQueuedRenderJobResult["status"] = "not_found";
-
-  await adminDb.runTransaction(async (transaction) => {
+  return adminDb.runTransaction<CancelQueuedRenderJobResult>(async (transaction) => {
     const snapshot = await transaction.get(docRef);
     if (!snapshot.exists) {
-      status = "not_found";
-      return;
+      return { status: "not_found" };
     }
 
     const raw = snapshot.data();
     if (!raw) {
-      status = "not_found";
-      return;
+      return { status: "not_found" };
     }
 
     const current = fromUnknownRecord(snapshot.id, raw);
     if (current.ownerKey !== ownerKey) {
-      status = "not_found";
-      return;
+      return { status: "not_found" };
     }
 
     if (current.status !== "queued") {
-      status = "not_queued";
-      return;
+      return { status: "not_queued" };
     }
 
-    next = {
+    const next: RenderJobRecord = {
       ...current,
       status: "failed",
       error: "任务已取消",
       updatedAt: nowIso(),
       logs: mergeLogs(current.logs, ["任务已取消。"]),
     };
-    status = "cancelled";
 
     const payload = stripUndefinedDeep(next) as Record<string, unknown>;
     transaction.set(docRef, payload, { merge: true });
+    return { status: "cancelled", job: toPublicJob(next) };
   });
-
-  if (status === "cancelled" && next) {
-    return { status, job: toPublicJob(next) };
-  }
-  return { status };
 }
 
 function cancelQueuedJobInMemory(id: string, ownerKey: string): CancelQueuedRenderJobResult {
