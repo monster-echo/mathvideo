@@ -6,6 +6,7 @@ import {
 } from "firebase-admin/app";
 import { getAuth, type Auth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
+import { getStorage, type Storage } from "firebase-admin/storage";
 
 const projectId =
   process.env.FB_ADMIN_PROJECT_ID?.trim() ||
@@ -14,8 +15,8 @@ const clientEmail =
   process.env.FB_ADMIN_CLIENT_EMAIL?.trim() ||
   process.env.FIREBASE_CLIENT_EMAIL?.trim();
 const privateKey = (
-  process.env.FB_ADMIN_PRIVATE_KEY || process.env.FIREBASE_PRIVATE_KEY
-)?.replace(/\\n/g, "\n");
+  process.env.FB_ADMIN_PRIVATE_KEY || process.env.FIREBASE_PRIVATE_KEY || ""
+).replace(/\\n/g, "\n").replace(/"/g, "").trim();
 const firestoreDatabaseId =
   process.env.FB_FIRESTORE_DATABASE_ID?.trim() ||
   process.env.FIREBASE_FIRESTORE_DATABASE_ID?.trim();
@@ -27,6 +28,7 @@ export const hasFirebaseAdminConfig = Boolean(
 let adminApp: FirebaseAdminApp | null = null;
 let adminDb: Firestore | null = null;
 let adminAuth: Auth | null = null;
+let adminStorage: Storage | null = null;
 
 if (hasFirebaseAdminConfig) {
   adminApp =
@@ -55,10 +57,11 @@ if (hasFirebaseAdminConfig) {
     }
   }
   adminAuth = getAuth(adminApp);
+  adminStorage = getStorage(adminApp);
 } else if (process.env.NODE_ENV !== "test") {
   console.warn(
     "[firebase-admin] Missing Firebase admin env vars. Firestore server writes are disabled.",
   );
 }
 
-export { adminApp, adminDb, adminAuth };
+export { adminApp, adminDb, adminAuth, adminStorage };

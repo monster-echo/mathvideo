@@ -1,2 +1,4 @@
+manim
 httpx==0.28.1
 pydantic==2.11.9
+python-dotenv==1.0.1

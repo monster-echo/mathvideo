@@ -27,6 +27,7 @@ export async function POST(request: Request) {
   }
 
   const job = await claimNextRenderJob(workerId);
+  console.log(`[Worker Claim] Worker ${workerId} claimed job:`, job?.id || "None");
   await upsertRenderWorkerHeartbeat({
     workerId,
     status: job ? "busy" : "idle",
