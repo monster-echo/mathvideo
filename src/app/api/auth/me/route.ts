@@ -4,6 +4,8 @@ import type { AuthMeResponse } from "@/contracts/auth";
 import { getSessionUser } from "@/lib/auth/session";
 import { getSubscriptionByUid, isSubscriptionActive } from "@/lib/billing/subscription";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   const user = await getSessionUser(request);
   if (!user) {

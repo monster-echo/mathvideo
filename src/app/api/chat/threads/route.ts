@@ -7,6 +7,8 @@ import { logServerEvent } from "@/lib/server/logger";
 import { getClientIp, readJsonBody } from "@/lib/server/request";
 import { validateBody } from "@/lib/server/validation";
 
+export const dynamic = "force-dynamic";
+
 function getOwnerKey(request: Request, uid?: string) {
   if (uid) return `user:${uid}`;
   return `guest:${getClientIp(request)}`;
