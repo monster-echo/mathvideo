@@ -75,19 +75,19 @@
 npm install
 ```
 
-2. 配置环境变量
+1. 配置环境变量
 
 ```bash
 cp .env.example .env.local
 ```
 
-3. 启动开发
+1. 启动开发
 
 ```bash
 npm run dev
 ```
 
-4. 运行质量检查
+1. 运行质量检查
 
 ```bash
 npm run check:standards
@@ -225,6 +225,109 @@ npm run build
 - `STRIPE_PRICE_CREATOR_PRO_YEARLY`
 - `STRIPE_PRICE_SCHOOL_TEAM_MONTHLY`
 - `STRIPE_PRICE_SCHOOL_TEAM_YEARLY`
+
+### GitHub Secrets 填写格式清单
+
+下面这份清单是给 GitHub Actions 用的，重点是：**GitHub Secret 的原始值不等于 `.env` 文件里看到的值**。为了避免部署时生成非法 dotenv 文件，建议按下面格式填写。
+
+#### 1. 纯文本 / URL / ID 类
+
+适用于：
+
+- `NEXT_PUBLIC_FIREBASE_API_KEY`
+- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+- `NEXT_PUBLIC_FIREBASE_APP_ID`
+- `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
+- `FB_ADMIN_PROJECT_ID` / `FIREBASE_PROJECT_ID`
+- `FB_ADMIN_CLIENT_EMAIL` / `FIREBASE_CLIENT_EMAIL`
+- `FB_FIRESTORE_DATABASE_ID` / `FIREBASE_FIRESTORE_DATABASE_ID`
+- `APP_BASE_URL`
+- `DEEPSEEK_API_KEY`
+- `DEEPSEEK_API_BASE_URL`
+- `DEEPSEEK_MODEL`
+- `MANIMBOX_WORKER_TOKEN`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `STRIPE_PRICE_TEACHER_PRO_MONTHLY`
+- `STRIPE_PRICE_TEACHER_PRO_YEARLY`
+- `STRIPE_PRICE_CREATOR_PRO_MONTHLY`
+- `STRIPE_PRICE_CREATOR_PRO_YEARLY`
+- `STRIPE_PRICE_SCHOOL_TEAM_MONTHLY`
+- `STRIPE_PRICE_SCHOOL_TEAM_YEARLY`
+
+填写要求：
+
+- 直接填写原始字符串
+- **不要额外加单引号或双引号**
+- **不要手动写成 `KEY=value`**，只填右边的值
+- 默认保持单行
+
+示例：
+
+- `APP_BASE_URL` → `https://mathvideo.example.com`
+- `FIREBASE_CLIENT_EMAIL` → `firebase-adminsdk-xxxxx@mathvideo-llm.iam.gserviceaccount.com`
+- `STRIPE_PRICE_TEACHER_PRO_MONTHLY` → `price_1234567890`
+
+#### 2. Firebase 私钥 `FIREBASE_PRIVATE_KEY`
+
+推荐填写成**单行字符串**，把换行写成字面量 `\n`：
+
+`-----BEGIN PRIVATE KEY-----\nMIIEv...\n-----END PRIVATE KEY-----\n`
+
+注意：
+
+- 不要写成 `FIREBASE_PRIVATE_KEY=...`
+- 不要再套一层引号
+- **不要直接粘贴成多行 PEM**，除非你非常确定后续脚本会替你做换行转义
+
+原因：
+
+- 多行 PEM 很容易在 CI 里把 `.env` 文件写坏
+- 当前代码会把 `\n` 自动还原成真实换行，所以单行转义格式最稳
+
+#### 3. 长文本提示词 `DEEPSEEK_SYSTEM_PROMPT`
+
+推荐优先使用**单行**。
+
+如果内容较长：
+
+- 可以保留自然空格
+- 尽量避免直接使用真实换行
+- 如确实要多段文本，建议先整理成单行版本再存入 GitHub Secret
+
+虽然当前工作流会安全序列化这个值，但单行文本更方便：
+
+- diff / 审查
+- 排查格式问题
+- 避免被其它脚本误当作多行 dotenv 内容
+
+#### 4. Service Account JSON 不要填错位置
+
+`FIREBASE_SERVICE_ACCOUNT_MATHVIDEO_LLM` 和 `FIREBASE_PRIVATE_KEY` 不是一回事：
+
+- `FIREBASE_SERVICE_ACCOUNT_MATHVIDEO_LLM`
+  - 用在 GitHub Action `firebaseServiceAccount`
+  - **这里应该填完整的 Service Account JSON**
+- `FIREBASE_PRIVATE_KEY`
+  - 用在应用运行时 `FB_ADMIN_PRIVATE_KEY`
+  - **这里只填私钥字段本身，不是整个 JSON**
+
+如果把整份 JSON 塞进 `FIREBASE_PRIVATE_KEY`，运行时就会直接“我不是这个意思”地报错。
+
+#### 5. 粘贴前的自检清单
+
+每次新增或修改 GitHub Secrets 前，建议快速确认：
+
+- 只填写值，不要包含变量名
+- 不要额外加引号
+- 除 `FIREBASE_PRIVATE_KEY` 外，优先保持单行
+- `FIREBASE_PRIVATE_KEY` 使用 `\n` 转义的单行格式
+- `FIREBASE_SERVICE_ACCOUNT_MATHVIDEO_LLM` 是完整 JSON，不是私钥片段
+- URL 类变量以 `https://` 开头
+- Price ID / token / API key 前后没有空格
 
 ## ManimBox Docker 镜像自动构建
 

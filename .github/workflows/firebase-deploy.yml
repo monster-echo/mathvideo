@@ -33,33 +33,150 @@ jobs:
         run: npm run lint
 
       - name: Write Firebase framework env file
+        env:
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
+          NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          FIREBASE_FIRESTORE_DATABASE_ID: ${{ secrets.FIREBASE_FIRESTORE_DATABASE_ID }}
+          APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_API_BASE_URL: ${{ secrets.DEEPSEEK_API_BASE_URL }}
+          DEEPSEEK_MODEL: ${{ secrets.DEEPSEEK_MODEL }}
+          DEEPSEEK_SYSTEM_PROMPT: ${{ secrets.DEEPSEEK_SYSTEM_PROMPT }}
+          MANIMBOX_WORKER_TOKEN: ${{ secrets.MANIMBOX_WORKER_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          STRIPE_PRICE_TEACHER_PRO_MONTHLY: ${{ secrets.STRIPE_PRICE_TEACHER_PRO_MONTHLY }}
+          STRIPE_PRICE_TEACHER_PRO_YEARLY: ${{ secrets.STRIPE_PRICE_TEACHER_PRO_YEARLY }}
+          STRIPE_PRICE_CREATOR_PRO_MONTHLY: ${{ secrets.STRIPE_PRICE_CREATOR_PRO_MONTHLY }}
+          STRIPE_PRICE_CREATOR_PRO_YEARLY: ${{ secrets.STRIPE_PRICE_CREATOR_PRO_YEARLY }}
+          STRIPE_PRICE_SCHOOL_TEAM_MONTHLY: ${{ secrets.STRIPE_PRICE_SCHOOL_TEAM_MONTHLY }}
+          STRIPE_PRICE_SCHOOL_TEAM_YEARLY: ${{ secrets.STRIPE_PRICE_SCHOOL_TEAM_YEARLY }}
         run: |
-          cat > .env.mathvideo-llm <<'EOF'
-          NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
-          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
-          NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
-          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
-          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
-          NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
-          NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
-          FB_ADMIN_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}
-          FB_ADMIN_CLIENT_EMAIL=${{ secrets.FIREBASE_CLIENT_EMAIL }}
-          FB_ADMIN_PRIVATE_KEY=${{ secrets.FIREBASE_PRIVATE_KEY }}
-          FB_FIRESTORE_DATABASE_ID=${{ secrets.FIREBASE_FIRESTORE_DATABASE_ID }}
-          APP_BASE_URL=${{ secrets.APP_BASE_URL }}
-          DEEPSEEK_API_KEY=${{ secrets.DEEPSEEK_API_KEY }}
-          DEEPSEEK_API_BASE_URL=${{ secrets.DEEPSEEK_API_BASE_URL }}
-          DEEPSEEK_MODEL=${{ secrets.DEEPSEEK_MODEL }}
-          DEEPSEEK_SYSTEM_PROMPT=${{ secrets.DEEPSEEK_SYSTEM_PROMPT }}
-          MANIMBOX_WORKER_TOKEN=${{ secrets.MANIMBOX_WORKER_TOKEN }}
-          STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
-          STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}
-          STRIPE_PRICE_TEACHER_PRO_MONTHLY=${{ secrets.STRIPE_PRICE_TEACHER_PRO_MONTHLY }}
-          STRIPE_PRICE_TEACHER_PRO_YEARLY=${{ secrets.STRIPE_PRICE_TEACHER_PRO_YEARLY }}
-          STRIPE_PRICE_CREATOR_PRO_MONTHLY=${{ secrets.STRIPE_PRICE_CREATOR_PRO_MONTHLY }}
-          STRIPE_PRICE_CREATOR_PRO_YEARLY=${{ secrets.STRIPE_PRICE_CREATOR_PRO_YEARLY }}
-          STRIPE_PRICE_SCHOOL_TEAM_MONTHLY=${{ secrets.STRIPE_PRICE_SCHOOL_TEAM_MONTHLY }}
-          STRIPE_PRICE_SCHOOL_TEAM_YEARLY=${{ secrets.STRIPE_PRICE_SCHOOL_TEAM_YEARLY }}
+          node <<'EOF'
+          const fs = require('node:fs');
+
+          const envEntries = {
+            NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? '',
+            NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ?? '',
+            NEXT_PUBLIC_FIREBASE_PROJECT_ID: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? '',
+            NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET ?? '',
+            NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID:
+              process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? '',
+            NEXT_PUBLIC_FIREBASE_APP_ID: process.env.NEXT_PUBLIC_FIREBASE_APP_ID ?? '',
+            NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID:
+              process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID ?? '',
+            FB_ADMIN_PROJECT_ID: process.env.FIREBASE_PROJECT_ID ?? '',
+            FB_ADMIN_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL ?? '',
+            FB_ADMIN_PRIVATE_KEY: (process.env.FIREBASE_PRIVATE_KEY ?? '').replace(/\r?\n/g, '\\n'),
+            FB_FIRESTORE_DATABASE_ID: process.env.FIREBASE_FIRESTORE_DATABASE_ID ?? '',
+            APP_BASE_URL: process.env.APP_BASE_URL ?? '',
+            DEEPSEEK_API_KEY: process.env.DEEPSEEK_API_KEY ?? '',
+            DEEPSEEK_API_BASE_URL: process.env.DEEPSEEK_API_BASE_URL ?? '',
+            DEEPSEEK_MODEL: process.env.DEEPSEEK_MODEL ?? '',
+            DEEPSEEK_SYSTEM_PROMPT: process.env.DEEPSEEK_SYSTEM_PROMPT ?? '',
+            MANIMBOX_WORKER_TOKEN: process.env.MANIMBOX_WORKER_TOKEN ?? '',
+            STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ?? '',
+            STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET ?? '',
+            STRIPE_PRICE_TEACHER_PRO_MONTHLY:
+              process.env.STRIPE_PRICE_TEACHER_PRO_MONTHLY ?? '',
+            STRIPE_PRICE_TEACHER_PRO_YEARLY:
+              process.env.STRIPE_PRICE_TEACHER_PRO_YEARLY ?? '',
+            STRIPE_PRICE_CREATOR_PRO_MONTHLY:
+              process.env.STRIPE_PRICE_CREATOR_PRO_MONTHLY ?? '',
+            STRIPE_PRICE_CREATOR_PRO_YEARLY:
+              process.env.STRIPE_PRICE_CREATOR_PRO_YEARLY ?? '',
+            STRIPE_PRICE_SCHOOL_TEAM_MONTHLY:
+              process.env.STRIPE_PRICE_SCHOOL_TEAM_MONTHLY ?? '',
+            STRIPE_PRICE_SCHOOL_TEAM_YEARLY:
+              process.env.STRIPE_PRICE_SCHOOL_TEAM_YEARLY ?? '',
+          };
+
+          const contents = Object.entries(envEntries)
+            .map(([key, value]) => `${key}=${JSON.stringify(String(value ?? ''))}`)
+            .join('\n');
+
+          fs.writeFileSync('.env.mathvideo-llm', `${contents}\n`);
+          EOF
+
+      - name: Validate Firebase framework env file
+        env:
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          DEEPSEEK_SYSTEM_PROMPT: ${{ secrets.DEEPSEEK_SYSTEM_PROMPT }}
+        run: |
+          node <<'EOF'
+          const fs = require('node:fs');
+
+          const filePath = '.env.mathvideo-llm';
+          const raw = fs.readFileSync(filePath, 'utf8');
+          const lines = raw.split(/\n/u);
+          const issues = [];
+
+          for (let index = 0; index < lines.length; index += 1) {
+            const lineNumber = index + 1;
+            const line = lines[index];
+
+            if (!line) continue;
+
+            const separatorIndex = line.indexOf('=');
+            if (separatorIndex <= 0) {
+              issues.push(`line ${lineNumber}: missing KEY=VALUE pair`);
+              continue;
+            }
+
+            const key = line.slice(0, separatorIndex);
+            const rawValue = line.slice(separatorIndex + 1);
+
+            if (!/^[A-Z][A-Z0-9_]*$/u.test(key)) {
+              issues.push(`line ${lineNumber}: invalid env key '${key}'`);
+              continue;
+            }
+
+            try {
+              JSON.parse(rawValue);
+            } catch (error) {
+              const message = error instanceof Error ? error.message : String(error);
+              issues.push(`line ${lineNumber} (${key}): invalid serialized value (${message})`);
+            }
+          }
+
+          if (issues.length > 0) {
+            console.error('Invalid generated dotenv file:');
+            for (const issue of issues) {
+              console.error(`- ${issue}`);
+            }
+            process.exit(1);
+          }
+
+          const suspiciousRawMultilineSecrets = [];
+
+          if (/\r|\n/u.test(process.env.FIREBASE_PRIVATE_KEY ?? '')) {
+            suspiciousRawMultilineSecrets.push(
+              'FIREBASE_PRIVATE_KEY contains raw newlines. Prefer storing it as a single line with literal \\n escapes in GitHub Secrets.',
+            );
+          }
+
+          if (/\r|\n/u.test(process.env.DEEPSEEK_SYSTEM_PROMPT ?? '')) {
+            suspiciousRawMultilineSecrets.push(
+              'DEEPSEEK_SYSTEM_PROMPT contains raw newlines. This workflow can serialize it safely, but a single-line value is easier to maintain and compare.',
+            );
+          }
+
+          if (suspiciousRawMultilineSecrets.length > 0) {
+            console.warn('::warning::Suspicious GitHub Secret formatting detected.');
+            for (const warning of suspiciousRawMultilineSecrets) {
+              console.warn(`::warning::${warning}`);
+            }
+          }
+
+          console.log(`Validated ${lines.filter(Boolean).length} env entries in ${filePath}.`);
           EOF
 
       - name: Verify required Firebase Admin vars
