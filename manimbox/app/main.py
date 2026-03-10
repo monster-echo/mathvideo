@@ -13,7 +13,7 @@ import httpx
 from pydantic import BaseModel, Field
 
 ENV_KEY_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
-SCENE_CLASS_RE = re.compile(r"class\\s+([A-Za-z_]\\w*)\\s*\\(\\s*Scene\\s*\\)")
+SCENE_CLASS_RE = re.compile(r"class\s+([A-Za-z_]\w*)\s*\(\s*([A-Za-z_]\w*)?Scene\s*\)")
 
 
 def resolve_env_path() -> Path:
