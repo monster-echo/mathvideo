@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -22,13 +23,25 @@ type HomeCopy = {
   tools: {
     badge: string;
     title: string;
-    cards: Array<{ title: string; desc: string; cta: string; href: string; tone: "blue" | "pink" | "violet" }>;
+    cards: Array<{
+      title: string;
+      desc: string;
+      cta: string;
+      href: string;
+      tone: "blue" | "pink" | "violet";
+    }>;
   };
   useCases: {
     badge: string;
     title: string;
     subtitle: string;
-    cards: Array<{ title: string; desc: string; cta: string; href: string; tone: "emerald" | "amber" | "cyan" }>;
+    cards: Array<{
+      title: string;
+      desc: string;
+      cta: string;
+      href: string;
+      tone: "emerald" | "amber" | "cyan";
+    }>;
   };
   howToUse: {
     badge: string;
@@ -61,7 +74,11 @@ const zhCopy: HomeCopy = {
     cta: "从零开始",
     metrics: [
       { title: "AI 驱动", subtitle: "说一句话就出视频", tone: "text-blue-600" },
-      { title: "免安装", subtitle: "打开浏览器就能用", tone: "text-indigo-600" },
+      {
+        title: "免安装",
+        subtitle: "打开浏览器就能用",
+        tone: "text-indigo-600",
+      },
       { title: "即时", subtitle: "实时渲染", tone: "text-violet-600" },
     ],
   },
@@ -95,7 +112,8 @@ const zhCopy: HomeCopy = {
   useCases: {
     badge: "多种场景都适用",
     title: "教学、学习、创作，一套工具全覆盖",
-    subtitle: "无论你是老师、学生还是内容创作者，都可以用 AnimG 高效制作数学动画。",
+    subtitle:
+      "无论你是老师、学生还是内容创作者，都可以用 AnimG 高效制作数学动画。",
     cards: [
       {
         title: "教师课堂讲解",
@@ -181,8 +199,16 @@ const enCopy: HomeCopy = {
     cta: "Start from scratch",
     metrics: [
       { title: "AI-Powered", subtitle: "Text to video", tone: "text-blue-600" },
-      { title: "No Install", subtitle: "Browser only", tone: "text-indigo-600" },
-      { title: "Instant", subtitle: "Real-time render", tone: "text-violet-600" },
+      {
+        title: "No Install",
+        subtitle: "Browser only",
+        tone: "text-indigo-600",
+      },
+      {
+        title: "Instant",
+        subtitle: "Real-time render",
+        tone: "text-violet-600",
+      },
     ],
   },
   tools: {
@@ -215,7 +241,8 @@ const enCopy: HomeCopy = {
   useCases: {
     badge: "Use Cases",
     title: "One platform for teaching, learning, and content creation",
-    subtitle: "Whether you are an educator, student, or creator, AnimG fits naturally into your workflow.",
+    subtitle:
+      "Whether you are an educator, student, or creator, AnimG fits naturally into your workflow.",
     cards: [
       {
         title: "Educator Lessons",
@@ -309,7 +336,13 @@ function ToolIcon({ tone }: { tone: "blue" | "pink" | "violet" }) {
       className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl border bg-gradient-to-br text-white shadow-sm ${palette[tone]}`}
       aria-hidden="true"
     >
-      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <svg
+        viewBox="0 0 24 24"
+        className="h-7 w-7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      >
         <path d="M4 12h16" />
         <path d="M12 4v16" />
         <circle cx="12" cy="12" r="7" />
@@ -330,7 +363,13 @@ function UseCaseIcon({ tone }: { tone: "emerald" | "amber" | "cyan" }) {
       className={`inline-flex h-12 w-12 items-center justify-center rounded-xl border bg-gradient-to-br text-white shadow-sm ${palette[tone]}`}
       aria-hidden="true"
     >
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <svg
+        viewBox="0 0 24 24"
+        className="h-6 w-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      >
         <path d="M4 18V9l8-5 8 5v9" />
         <path d="M9 22v-6h6v6" />
       </svg>
@@ -357,22 +396,36 @@ export default async function LocaleHomePage({ params }: HomePageProps) {
           <h1 className="mt-6 bg-gradient-to-r from-blue-600 to-violet-500 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl">
             {copy.hero.titleTop}
           </h1>
-          <h2 className="mt-3 text-5xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-6xl">{copy.hero.titleBottom}</h2>
+          <h2 className="mt-3 text-5xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-6xl">
+            {copy.hero.titleBottom}
+          </h2>
 
-          <p className="mt-8 text-base text-slate-600 dark:text-slate-300">{copy.hero.hint}</p>
+          <p className="mt-8 text-base text-slate-600 dark:text-slate-300">
+            {copy.hero.hint}
+          </p>
 
           <HomeHeroPrompt locale={locale} placeholder={copy.hero.placeholder} />
 
-          <Link href={localePath(locale, "/creator")} className="mt-6 inline-flex rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+          <Link
+            href={localePath(locale, "/creator")}
+            className="mt-6 inline-flex rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          >
             {copy.hero.cta} →
           </Link>
 
           <div className="mt-10 h-px w-full max-w-4xl bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-700" />
           <div className="mt-10 grid w-full gap-5 sm:grid-cols-3">
             {copy.hero.metrics.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-slate-200 bg-white px-6 py-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/80">
-                <p className={`text-4xl font-bold ${item.tone}`}>{item.title}</p>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.subtitle}</p>
+              <div
+                key={item.title}
+                className="rounded-2xl border border-slate-200 bg-white px-6 py-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/80"
+              >
+                <p className={`text-4xl font-bold ${item.tone}`}>
+                  {item.title}
+                </p>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                  {item.subtitle}
+                </p>
               </div>
             ))}
           </div>
@@ -387,20 +440,32 @@ export default async function LocaleHomePage({ params }: HomePageProps) {
             <p className="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
               {copy.tools.badge}
             </p>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">{copy.tools.title}</h2>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+              {copy.tools.title}
+            </h2>
             <div className="mx-auto mt-8 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-700" />
           </div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {copy.tools.cards.map((item) => (
-              <article key={item.title} className="overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+              <article
+                key={item.title}
+                className="overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/90"
+              >
                 <div className="flex flex-col items-center border-b border-slate-200 px-6 py-7 dark:border-slate-700">
                   <ToolIcon tone={item.tone} />
-                  <h3 className="mt-4 text-3xl font-bold text-slate-900 dark:text-white">{item.title}</h3>
+                  <h3 className="mt-4 text-3xl font-bold text-slate-900 dark:text-white">
+                    {item.title}
+                  </h3>
                 </div>
                 <div className="px-6 py-5">
-                  <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">{item.desc}</p>
-                  <Link href={localePath(locale, item.href)} className="mt-4 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-200">
+                  <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">
+                    {item.desc}
+                  </p>
+                  <Link
+                    href={localePath(locale, item.href)}
+                    className="mt-4 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-200"
+                  >
                     {item.cta} →
                   </Link>
                 </div>
@@ -413,9 +478,15 @@ export default async function LocaleHomePage({ params }: HomePageProps) {
       <section className="relative overflow-hidden border-b border-slate-200/80 bg-[linear-gradient(180deg,rgba(248,250,252,1)_0%,rgba(241,245,249,1)_100%)] py-20 md:py-24 dark:border-slate-800/80 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98)_0%,rgba(15,23,42,0.95)_100%)]">
         <div className="mx-auto max-w-6xl px-6 md:px-8">
           <div className="text-center">
-            <p className="text-sm font-semibold text-slate-400 dark:text-slate-500">{copy.community.badge}</p>
-            <h2 className="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">{copy.community.title}</h2>
-            <p className="mt-3 text-lg text-slate-600 dark:text-slate-300 sm:text-xl">{copy.community.subtitle}</p>
+            <p className="text-sm font-semibold text-slate-400 dark:text-slate-500">
+              {copy.community.badge}
+            </p>
+            <h2 className="mt-3 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+              {copy.community.title}
+            </h2>
+            <p className="mt-3 text-lg text-slate-600 dark:text-slate-300 sm:text-xl">
+              {copy.community.subtitle}
+            </p>
             <div className="mx-auto mt-8 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-700" />
           </div>
 
@@ -428,7 +499,14 @@ export default async function LocaleHomePage({ params }: HomePageProps) {
                 title={item.title}
               >
                 <div className="aspect-[16/9]">
-                  <img src={item.thumbnailUrl} alt={item.title} className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
+                  <Image
+                    src={item.thumbnailUrl}
+                    alt={item.title}
+                    width={640}
+                    height={360}
+                    sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 100vw"
+                    className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                  />
                 </div>
               </Link>
             ))}
@@ -451,17 +529,28 @@ export default async function LocaleHomePage({ params }: HomePageProps) {
             <p className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
               {copy.useCases.badge}
             </p>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">{copy.useCases.title}</h2>
-            <p className="mx-auto mt-3 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">{copy.useCases.subtitle}</p>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+              {copy.useCases.title}
+            </h2>
+            <p className="mx-auto mt-3 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">
+              {copy.useCases.subtitle}
+            </p>
             <div className="mx-auto mt-8 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-emerald-300 to-transparent dark:via-emerald-700" />
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {copy.useCases.cards.map((item) => (
-              <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/85">
+              <article
+                key={item.title}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/85"
+              >
                 <UseCaseIcon tone={item.tone} />
-                <h3 className="mt-4 text-2xl font-bold text-slate-900 dark:text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.desc}</p>
+                <h3 className="mt-4 text-2xl font-bold text-slate-900 dark:text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                  {item.desc}
+                </p>
                 <Link
                   href={localePath(locale, item.href)}
                   className="mt-5 inline-flex text-sm font-semibold text-emerald-700 hover:text-emerald-800 dark:text-emerald-300 dark:hover:text-emerald-200"
@@ -480,16 +569,27 @@ export default async function LocaleHomePage({ params }: HomePageProps) {
             <p className="inline-flex rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700 dark:bg-violet-900/30 dark:text-violet-300">
               {copy.howToUse.badge}
             </p>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">{copy.howToUse.title}</h2>
-            <p className="mx-auto mt-3 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">{copy.howToUse.subtitle}</p>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+              {copy.howToUse.title}
+            </h2>
+            <p className="mx-auto mt-3 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">
+              {copy.howToUse.subtitle}
+            </p>
             <div className="mx-auto mt-8 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-violet-300 to-transparent dark:via-violet-700" />
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {copy.howToUse.steps.map((step) => (
-              <article key={step.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white">{step.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{step.desc}</p>
+              <article
+                key={step.title}
+                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+              >
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                  {step.desc}
+                </p>
               </article>
             ))}
           </div>
@@ -511,16 +611,27 @@ export default async function LocaleHomePage({ params }: HomePageProps) {
             <p className="inline-flex rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300">
               {copy.faq.badge}
             </p>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">{copy.faq.title}</h2>
-            <p className="mx-auto mt-3 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">{copy.faq.subtitle}</p>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+              {copy.faq.title}
+            </h2>
+            <p className="mx-auto mt-3 max-w-3xl text-base text-slate-600 dark:text-slate-300 sm:text-lg">
+              {copy.faq.subtitle}
+            </p>
             <div className="mx-auto mt-8 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-cyan-300 to-transparent dark:via-cyan-700" />
           </div>
 
           <div className="mt-8 space-y-4">
             {copy.faq.items.map((item) => (
-              <details key={item.q} className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm open:bg-white dark:border-slate-700 dark:bg-slate-900/70 dark:open:bg-slate-900">
-                <summary className="cursor-pointer text-base font-semibold text-slate-900 dark:text-white">{item.q}</summary>
-                <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.a}</p>
+              <details
+                key={item.q}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm open:bg-white dark:border-slate-700 dark:bg-slate-900/70 dark:open:bg-slate-900"
+              >
+                <summary className="cursor-pointer text-base font-semibold text-slate-900 dark:text-white">
+                  {item.q}
+                </summary>
+                <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                  {item.a}
+                </p>
               </details>
             ))}
           </div>

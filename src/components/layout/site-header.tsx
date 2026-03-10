@@ -1,17 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import {
-  localeFlags,
-  localeNames,
-} from "@/lib/data/animg";
-import {
-  localePath,
-  swapLocaleInPath,
-  type Locale,
-} from "@/lib/i18n";
+import { localeFlags, localeNames } from "@/lib/data/animg";
+import { localePath, swapLocaleInPath, type Locale } from "@/lib/i18n";
 
 import { SessionActions } from "@/components/layout/session-actions";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
@@ -57,23 +51,47 @@ const localizedSupportMenuLinks: Record<Locale, HeaderLink[]> = {
   en: [
     { href: "/how-it-works", label: "How AnimG Works" },
     { href: "/examples", label: "Animation Examples" },
-    { href: "https://docs.manim.community/en/stable/", label: "Manim Docs", external: true },
+    {
+      href: "https://docs.manim.community/en/stable/",
+      label: "Manim Docs",
+      external: true,
+    },
     { href: "mailto:animg@voycrew.com", label: "Feedback", external: true },
-    { href: "https://discord.gg/sqrCJUZHkK", label: "Discord Community", external: true },
+    {
+      href: "https://discord.gg/sqrCJUZHkK",
+      label: "Discord Community",
+      external: true,
+    },
   ],
   zh: [
     { href: "/how-it-works", label: "AnimG 如何工作？" },
     { href: "/examples", label: "动画示例" },
-    { href: "https://docs.manim.community/en/stable/", label: "Manim 文档", external: true },
+    {
+      href: "https://docs.manim.community/en/stable/",
+      label: "Manim 文档",
+      external: true,
+    },
     { href: "mailto:animg@voycrew.com", label: "反馈", external: true },
-    { href: "https://discord.gg/sqrCJUZHkK", label: "Discord 社区", external: true },
+    {
+      href: "https://discord.gg/sqrCJUZHkK",
+      label: "Discord 社区",
+      external: true,
+    },
   ],
   de: [
     { href: "/how-it-works", label: "How AnimG Works" },
     { href: "/examples", label: "Animation Examples" },
-    { href: "https://docs.manim.community/en/stable/", label: "Manim Docs", external: true },
+    {
+      href: "https://docs.manim.community/en/stable/",
+      label: "Manim Docs",
+      external: true,
+    },
     { href: "mailto:animg@voycrew.com", label: "Feedback", external: true },
-    { href: "https://discord.gg/sqrCJUZHkK", label: "Discord Community", external: true },
+    {
+      href: "https://discord.gg/sqrCJUZHkK",
+      label: "Discord Community",
+      external: true,
+    },
   ],
 };
 
@@ -90,8 +108,17 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur-sm transition-colors duration-300 dark:border-slate-800/50 dark:bg-slate-900/80">
       <div className="flex w-full items-center gap-4 px-6 py-2">
-        <Link href={localePath(locale, "/")} className="flex flex-shrink-0 items-center gap-2">
-          <img src="/logo.svg" alt="AnimG Logo" className="h-8 w-8" />
+        <Link
+          href={localePath(locale, "/")}
+          className="flex flex-shrink-0 items-center gap-2"
+        >
+          <Image
+            src="/logo.svg"
+            alt="AnimG Logo"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+          />
           <span className="text-xl font-bold text-blue-600">AnimG</span>
         </Link>
 
@@ -122,7 +149,14 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
                 <summary className="list-none cursor-pointer rounded-md px-2 py-1 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800/50 dark:hover:text-white">
                   <span className="inline-flex items-center gap-1">
                     {supportLabel}
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      aria-hidden="true"
+                    >
                       <path d="m6 9 6 6 6-6" />
                     </svg>
                   </span>

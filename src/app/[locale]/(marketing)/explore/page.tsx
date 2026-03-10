@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -18,7 +19,9 @@ export default async function ExplorePage({ params }: ExplorePageProps) {
     <div className="animg-container">
       <header className="mb-8">
         <h1 className="text-4xl font-bold">Explore Animations</h1>
-        <p className="mt-2 text-lg animg-muted">Discover amazing manim animations created by the AnimG community.</p>
+        <p className="mt-2 text-lg animg-muted">
+          Discover amazing manim animations created by the AnimG community.
+        </p>
       </header>
 
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -26,7 +29,13 @@ export default async function ExplorePage({ params }: ExplorePageProps) {
           <article key={item.id} className="animg-card overflow-hidden">
             <Link href={localePath(locale, `/animation/${item.slug}`)}>
               <div className="group relative aspect-video overflow-hidden bg-slate-900">
-                <img src={item.thumbnailUrl} alt={item.title} className="h-full w-full object-cover" />
+                <Image
+                  src={item.thumbnailUrl}
+                  alt={item.title}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
                 <span className="absolute bottom-2 right-2 rounded bg-black/70 px-2 py-1 text-xs font-medium text-white">
                   {item.duration}
                 </span>
@@ -57,9 +66,16 @@ export default async function ExplorePage({ params }: ExplorePageProps) {
       </div>
 
       <aside className="fixed bottom-6 right-6 z-30 hidden max-w-sm rounded-xl border border-slate-200 bg-white p-4 shadow-lg lg:block dark:border-slate-700 dark:bg-slate-900">
-        <p className="text-sm font-semibold text-slate-900 dark:text-white">Create with AnimG AI</p>
-        <p className="mt-1 text-sm animg-muted">Describe your animation idea and let AnimG AI generate the Manim code.</p>
-        <Link href={localePath(locale, "/creator")} className="animg-button-primary mt-3 w-full">
+        <p className="text-sm font-semibold text-slate-900 dark:text-white">
+          Create with AnimG AI
+        </p>
+        <p className="mt-1 text-sm animg-muted">
+          Describe your animation idea and let AnimG AI generate the Manim code.
+        </p>
+        <Link
+          href={localePath(locale, "/creator")}
+          className="animg-button-primary mt-3 w-full"
+        >
           Open Creator
         </Link>
       </aside>

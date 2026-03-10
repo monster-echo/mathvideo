@@ -4,6 +4,14 @@ const nextConfig = {
     // rewriting imports to virtual package names that are missing at runtime.
     serverComponentsExternalPackages: ["firebase-admin"],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
