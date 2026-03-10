@@ -25,7 +25,6 @@ load_config()
 WEB_APP_BASE_URL = os.getenv("WEB_APP_BASE_URL", "").strip().rstrip("/")
 MANIMBOX_WORKER_TOKEN = os.getenv("MANIMBOX_WORKER_TOKEN", "").strip()
 MANIMBOX_WORKER_ID = os.getenv("MANIMBOX_WORKER_ID", "").strip() or socket.gethostname()
-MANIMBOX_PUBLIC_BASE_URL = os.getenv("MANIMBOX_PUBLIC_BASE_URL", "").strip().rstrip("/")
 
 MANIMBOX_POLL_INTERVAL_SEC = float(os.getenv("MANIMBOX_POLL_INTERVAL_SEC", "2"))
 MANIMBOX_HEARTBEAT_SEC = float(os.getenv("MANIMBOX_HEARTBEAT_SEC", "5"))

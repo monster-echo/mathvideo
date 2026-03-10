@@ -13,7 +13,6 @@
 - `WEB_APP_BASE_URL`：AnimG web 地址，例如 `https://your-web-domain.com`
 - `MANIMBOX_WORKER_TOKEN`：与 web 端 `MANIMBOX_WORKER_TOKEN` 一致
 - `MANIMBOX_WORKER_ID`：worker 唯一 ID（不填默认主机名）
-- `MANIMBOX_PUBLIC_BASE_URL`：可选，视频公开访问地址前缀（例如 `https://cdn.example.com/manimbox`）
 - `MANIMBOX_POLL_INTERVAL_SEC`：拉任务间隔，默认 `2`
 - `MANIMBOX_HEARTBEAT_SEC`：心跳间隔，默认 `5`
 - `MANIMBOX_RENDER_TIMEOUT_SEC`：单任务超时（秒），默认 `900`
