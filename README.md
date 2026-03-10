@@ -1,6 +1,7 @@
 # AnimG Web (Next.js + Firebase)
 
 高保真原型实现版，目标：
+
 - 1:1 对应你确认的核心页面结构（首页、创作、发现、演练场、价格、支持、登录）
 - 强化高转化路径（新定价结构 + Aha 后付费弹层 + 教师/创作者/机构落地页）
 - 底层接入 Firebase（Auth / Firestore）
@@ -118,6 +119,7 @@ npm run build
 ## 你后续提供的 AI Key / URL 如何接入
 
 我已经预留好接口：
+
 - `AI_API_URL`
 - `AI_API_KEY`
 
@@ -142,7 +144,10 @@ npm run build
 ### 环境变量补充
 
 - 若你使用的是非默认 Firestore 数据库（不是 `(default)`），请在 `.env.local` 设置：
-  - `FIREBASE_FIRESTORE_DATABASE_ID=你的数据库ID`
+  - `FB_FIRESTORE_DATABASE_ID=你的数据库ID`
+
+- 服务器端 Firebase Admin 凭据请使用 `FB_ADMIN_*` 前缀。
+  - `FIREBASE_*` 在 Firebase Functions / frameworks runtime 中属于保留前缀，不建议用于自定义环境变量。
 
 ### Collections
 
@@ -162,6 +167,7 @@ npm run build
 ## 设计与转化说明
 
 该版本重点做了：
+
 - 把“功能卖点”改成“角色价值卖点”
 - 把升级触发点放在 Aha 之后（首个动画成功后）
 - 把价格表达改为可预算/可采购（角色化套餐）
@@ -201,10 +207,10 @@ npm run build
 - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
 - `NEXT_PUBLIC_FIREBASE_APP_ID`
 - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
-- `FIREBASE_PROJECT_ID`
-- `FIREBASE_CLIENT_EMAIL`
-- `FIREBASE_PRIVATE_KEY`
-- `FIREBASE_FIRESTORE_DATABASE_ID`
+- `FB_ADMIN_PROJECT_ID`
+- `FB_ADMIN_CLIENT_EMAIL`
+- `FB_ADMIN_PRIVATE_KEY`
+- `FB_FIRESTORE_DATABASE_ID`
 - `APP_BASE_URL`
 - `DEEPSEEK_API_KEY`
 - `DEEPSEEK_API_BASE_URL`

@@ -1,13 +1,28 @@
-import { cert, getApps, initializeApp, type App as FirebaseAdminApp } from "firebase-admin/app";
+import {
+  cert,
+  getApps,
+  initializeApp,
+  type App as FirebaseAdminApp,
+} from "firebase-admin/app";
 import { getAuth, type Auth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 
-const projectId = process.env.FIREBASE_PROJECT_ID;
-const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-const firestoreDatabaseId = process.env.FIREBASE_FIRESTORE_DATABASE_ID?.trim();
+const projectId =
+  process.env.FB_ADMIN_PROJECT_ID?.trim() ||
+  process.env.FIREBASE_PROJECT_ID?.trim();
+const clientEmail =
+  process.env.FB_ADMIN_CLIENT_EMAIL?.trim() ||
+  process.env.FIREBASE_CLIENT_EMAIL?.trim();
+const privateKey = (
+  process.env.FB_ADMIN_PRIVATE_KEY || process.env.FIREBASE_PRIVATE_KEY
+)?.replace(/\\n/g, "\n");
+const firestoreDatabaseId =
+  process.env.FB_FIRESTORE_DATABASE_ID?.trim() ||
+  process.env.FIREBASE_FIRESTORE_DATABASE_ID?.trim();
 
-export const hasFirebaseAdminConfig = Boolean(projectId && clientEmail && privateKey);
+export const hasFirebaseAdminConfig = Boolean(
+  projectId && clientEmail && privateKey,
+);
 
 let adminApp: FirebaseAdminApp | null = null;
 let adminDb: Firestore | null = null;
@@ -32,13 +47,18 @@ if (hasFirebaseAdminConfig) {
   try {
     adminDb.settings({ ignoreUndefinedProperties: true });
   } catch (error) {
-    if (!(error instanceof Error) || !error.message.includes("Firestore has already been initialized")) {
+    if (
+      !(error instanceof Error) ||
+      !error.message.includes("Firestore has already been initialized")
+    ) {
       throw error;
     }
   }
   adminAuth = getAuth(adminApp);
 } else if (process.env.NODE_ENV !== "test") {
-  console.warn("[firebase-admin] Missing Firebase admin env vars. Firestore server writes are disabled.");
+  console.warn(
+    "[firebase-admin] Missing Firebase admin env vars. Firestore server writes are disabled.",
+  );
 }
 
 export { adminApp, adminDb, adminAuth };

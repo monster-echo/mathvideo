@@ -4,7 +4,10 @@ import https from "node:https";
 import { JWT } from "google-auth-library";
 import { HttpsProxyAgent } from "https-proxy-agent";
 
-import { sessionLoginRequestSchema, type SessionLoginSuccessResponse } from "@/contracts/auth";
+import {
+  sessionLoginRequestSchema,
+  type SessionLoginSuccessResponse,
+} from "@/contracts/auth";
 import { getSessionCookieSettings } from "@/lib/auth/session";
 import { hasFirebaseAdminConfig } from "@/lib/firebase/admin";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/server/rate-limit";
@@ -29,7 +32,11 @@ function getProxyAgent() {
   return new HttpsProxyAgent(proxyUrl);
 }
 
-async function postJsonWithHttps(input: { url: string; body: object; headers: Record<string, string> }) {
+async function postJsonWithHttps(input: {
+  url: string;
+  body: object;
+  headers: Record<string, string>;
+}) {
   const { url, body, headers } = input;
 
   return new Promise<{ status: number; data: unknown }>((resolve, reject) => {
@@ -78,18 +85,32 @@ function parseJwtPayload(token: string): Record<string, unknown> {
   const parts = token.split(".");
   if (parts.length < 2) return {};
   try {
-    const payload = Buffer.from(parts[1].replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf8");
+    const payload = Buffer.from(
+      parts[1].replace(/-/g, "+").replace(/_/g, "/"),
+      "base64",
+    ).toString("utf8");
     const parsed = JSON.parse(payload);
-    return parsed && typeof parsed === "object" ? (parsed as Record<string, unknown>) : {};
+    return parsed && typeof parsed === "object"
+      ? (parsed as Record<string, unknown>)
+      : {};
   } catch {
     return {};
   }
 }
 
-async function createSessionCookieViaIdentityToolkit(input: { idToken: string; expiresInMs: number }) {
-  const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
-  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL?.trim();
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+async function createSessionCookieViaIdentityToolkit(input: {
+  idToken: string;
+  expiresInMs: number;
+}) {
+  const projectId =
+    process.env.FB_ADMIN_PROJECT_ID?.trim() ||
+    process.env.FIREBASE_PROJECT_ID?.trim();
+  const clientEmail =
+    process.env.FB_ADMIN_CLIENT_EMAIL?.trim() ||
+    process.env.FIREBASE_CLIENT_EMAIL?.trim();
+  const privateKey = (
+    process.env.FB_ADMIN_PRIVATE_KEY || process.env.FIREBASE_PRIVATE_KEY
+  )?.replace(/\\n/g, "\n");
 
   if (!projectId || !clientEmail || !privateKey) {
     throw new Error("Firebase Admin 未配置，无法创建服务端会话");
@@ -101,7 +122,8 @@ async function createSessionCookieViaIdentityToolkit(input: { idToken: string; e
     scopes: ["https://www.googleapis.com/auth/identitytoolkit"],
   });
   const tokenResult = await jwt.getAccessToken();
-  const accessToken = typeof tokenResult === "string" ? tokenResult : tokenResult?.token;
+  const accessToken =
+    typeof tokenResult === "string" ? tokenResult : tokenResult?.token;
   if (!accessToken) {
     throw new Error("无法获取 Google Access Token");
   }
@@ -176,7 +198,9 @@ export async function POST(request: Request) {
 
   try {
     const expiresIn = 1000 * 60 * 60 * 24 * 5;
-    const { sessionCookie, user } = await createSessionCookieViaIdentityToolkit({ idToken, expiresInMs: expiresIn });
+    const { sessionCookie, user } = await createSessionCookieViaIdentityToolkit(
+      { idToken, expiresInMs: expiresIn },
+    );
 
     const payload: SessionLoginSuccessResponse = {
       ok: true,
@@ -191,7 +215,10 @@ export async function POST(request: Request) {
 
     response.headers.set("X-RateLimit-Limit", "20");
     response.headers.set("X-RateLimit-Remaining", String(rateLimit.remaining));
-    response.headers.set("X-RateLimit-Reset", String(Math.floor(rateLimit.resetAt / 1000)));
+    response.headers.set(
+      "X-RateLimit-Reset",
+      String(Math.floor(rateLimit.resetAt / 1000)),
+    );
     response.headers.set("Retry-After", String(rateLimit.retryAfterSec));
     return response;
   } catch (error) {
