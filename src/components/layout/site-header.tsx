@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { localeFlags, localeNames } from "@/lib/data/animg";
-import { localePath, swapLocaleInPath, type Locale } from "@/lib/i18n";
+import { localePath, swapLocaleInPath, LOCALE_COOKIE_NAME, type Locale } from "@/lib/i18n";
 
 import { SessionActions } from "@/components/layout/session-actions";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
@@ -97,6 +97,10 @@ const localizedSupportMenuLinks: Record<Locale, HeaderLink[]> = {
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function setLocaleCookie(locale: Locale) {
+  document.cookie = `${LOCALE_COOKIE_NAME}=${locale};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
 }
 
 export function SiteHeader({ locale }: SiteHeaderProps) {
@@ -195,6 +199,7 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
                 <Link
                   key={candidate}
                   href={swapLocaleInPath(pathname, candidate)}
+                  onClick={() => setLocaleCookie(candidate)}
                   className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"
                 >
                   <span>{localeFlags[candidate]}</span>
